@@ -62,13 +62,13 @@ const ImageInput = forwardRef(({ onChange, value, onFileSelect }, ref) => {
   }));
 
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="w-full space-y-3">
       <Input 
         type="file" 
         accept="image/*"
         onChange={handleFileSelect}
         disabled={isUploading}
-        className="text-sm"
+        className="text-sm h-10 sm:h-12"
       />
       
       {selectedFile && !value && (
@@ -80,13 +80,15 @@ const ImageInput = forwardRef(({ onChange, value, onFileSelect }, ref) => {
       {isUploading && <p className="text-xs sm:text-sm text-blue-600">Uploading to Cloudflare...</p>}
       {error && <p className="text-xs sm:text-sm text-red-600">{error}</p>}
       {value && !isUploading && !error && (
-        <div className="mt-2">
+        <div className="mt-3">
           <p className="text-xs sm:text-sm text-green-600 mb-2">Image uploaded successfully!</p>
-          <img 
-            src={getImageUrl(value)} 
-            alt="Preview" 
-            className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg border"
-          />
+          <div className="flex justify-center sm:justify-start">
+            <img 
+              src={getImageUrl(value)} 
+              alt="Preview" 
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 object-cover rounded-lg border shadow-sm"
+            />
+          </div>
         </div>
       )}
     </div>
