@@ -138,13 +138,13 @@ function ProductPage() {
             </div>
             
             {/* Additional Images Placeholder */}
-            <div className="grid grid-cols-4 gap-2">
+            {/* <div className="grid grid-cols-4 gap-2">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="aspect-square bg-gray-200 rounded-lg border-2 border-gray-300 flex items-center justify-center">
                   <span className="text-gray-500 text-xs">Image {i}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Product Details */}
