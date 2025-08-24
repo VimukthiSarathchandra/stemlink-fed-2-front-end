@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8000';
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const putImage = async ({ file }) => {
   // Step 1: Get signed URL from backend
