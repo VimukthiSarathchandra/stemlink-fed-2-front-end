@@ -43,8 +43,8 @@ function CompletePage() {
         <div className="mt-6">
           <p>
             If you have any questions, please email{" "}
-            <a href="mailto:orders@example.com" className="text-blue-600 hover:underline">
-              orders@example.com
+            <a href="mailto:orders@mebius.com" className="text-blue-600 hover:underline">
+              orders@Mebius.com
             </a>.
           </p>
         </div>

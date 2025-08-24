@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { Menu, X, ShoppingBag, Search, User, Package } from "lucide-react";
+import { Menu, X, ShoppingBag, Search, User, Package, Plus, Edit, BarChart3 } from "lucide-react";
 import { useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
 import { SignedIn, UserButton, SignedOut } from "@clerk/clerk-react";
 import ProductSearchForm from "./ProductSearchForm";
 import { useAdmin } from "@/lib/hooks/useAdmin";
 import AdminDropdown from "./AdminDropdown";
+import { Button } from "@/components/ui/button";
 
 export default function Navigation() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -49,8 +50,8 @@ export default function Navigation() {
                 label: "Shoes",
               },
               {
-                path: "/shop/tshirts",
-                label: "T-Shirt",
+                path: "/shop/t-shirts",
+                label: "T-Shirts",
               },
               {
                 path: "/shop/shorts",
@@ -101,23 +102,30 @@ export default function Navigation() {
               <div className="flex items-center space-x-2">
                 {/* My Orders Link for Regular Users */}
                 {!isAdmin && (
-                  <Link
-                    to="/my-orders"
-                    className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    title="My Orders"
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="hidden md:flex items-center gap-2"
                   >
-                    <Package size={16} />
-                    <span className="hidden lg:inline">My Orders</span>
-                  </Link>
+                    <Link to="/my-orders" title="My Orders">
+                      <Package size={16} />
+                      <span className="hidden lg:inline">My Orders</span>
+                    </Link>
+                  </Button>
                 )}
                 <UserButton />
               </div>
             </SignedIn>
             <div className="hidden md:block">
               <SignedOut>
-                <div className="flex items-center gap-4">
-                  <Link to="/sign-in">Sign In</Link>
-                  <Link to="/sign-up">Sign Up</Link>
+                <div className="flex items-center gap-3">
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/sign-in">Sign In</Link>
+                  </Button>
+                  <Button size="sm" asChild>
+                    <Link to="/sign-up">Sign Up</Link>
+                  </Button>
                 </div>
               </SignedOut>
             </div>
@@ -140,7 +148,7 @@ export default function Navigation() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
             {[
               { path: "/shop/shoes", label: "Shoes" },
-              { path: "/shop/tshirts", label: "T-Shirt" },
+              { path: "/shop/t-shirts", label: "T-Shirts" },
               { path: "/shop/shorts", label: "Shorts" },
               { path: "/shop/pants", label: "Pants" },
               { path: "/shop/socks", label: "Socks" },
@@ -157,55 +165,84 @@ export default function Navigation() {
             
             {/* User Orders Link for Mobile */}
             {!isAdmin && (
-              <Link
-                to="/my-orders"
-                className="block px-3 py-2 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-md"
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="w-full justify-start"
                 onClick={closeMobileMenu}
               >
-                My Orders
-              </Link>
+                <Link to="/my-orders" className="flex items-center gap-2">
+                  <Package size={16} />
+                  My Orders
+                </Link>
+              </Button>
             )}
             
             {/* Admin Links for Mobile */}
             {isAdmin && (
               <>
-                <Link
-                  to="/admin/products/create"
-                  className="block px-3 py-2 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-md"
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="w-full justify-start"
                   onClick={closeMobileMenu}
                 >
-                  Create Product
-                </Link>
-                <Link
-                  to="/admin/products/update"
-                  className="block px-3 py-2 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-md"
+                  <Link to="/admin/products/create" className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Create Product
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="w-full justify-start"
                   onClick={closeMobileMenu}
                 >
-                  Update Product
-                </Link>
-                <Link
-                  to="/admin/orders"
-                  className="block px-3 py-2 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-md"
+                  <Link to="/admin/products/update" className="flex items-center gap-2">
+                    <Edit className="h-4 w-4" />
+                    Update Product
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="w-full justify-start"
                   onClick={closeMobileMenu}
                 >
-                  Admin Orders
-                </Link>
-                <Link
-                  to="/admin/sales"
-                  className="block px-3 py-2 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-md"
+                  <Link to="/admin/orders" className="flex items-center gap-2">
+                    <Package className="h-4 w-4" />
+                    Admin Orders
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="w-full justify-start"
                   onClick={closeMobileMenu}
                 >
-                  Sales Dashboard
-                </Link>
+                  <Link to="/admin/sales" className="flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4" />
+                    Sales Dashboard
+                  </Link>
+                </Button>
               </>
             )}
           </div>
 
-          <div className="block md:hidden px-4">
+          <div className="block md:hidden px-4 pb-4">
             <SignedOut>
-              <div className="flex items-center gap-4">
-                <Link to="/sign-in">Sign In</Link>
-                <Link to="/sign-up">Sign Up</Link>
+              <div className="flex flex-col gap-2">
+                <Button variant="ghost" size="sm" asChild className="w-full justify-start">
+                  <Link to="/sign-in">Sign In</Link>
+                </Button>
+                <Button size="sm" asChild className="w-full">
+                  <Link to="/sign-up">Sign Up</Link>
+                </Button>
               </div>
             </SignedOut>
           </div>

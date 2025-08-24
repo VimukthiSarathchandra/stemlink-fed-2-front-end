@@ -138,26 +138,14 @@ function CompletePage() {
               </div>
             </div>
 
-            {/* Next Steps */}
-            <div className="bg-blue-50 rounded-lg p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <Mail className="h-5 w-5 mr-2" />
-                What's Next?
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• You'll receive an order confirmation email shortly</li>
-                <li>• We'll notify you when your order ships</li>
-                <li>• Track your order status in your account</li>
-                <li>• Contact us if you have any questions</li>
-              </ul>
-            </div>
+           
 
             {/* Contact Information */}
             <div className="text-center text-sm text-gray-600 mb-6">
               <p>
                 Questions about your order? Contact us at{" "}
-                <a href="mailto:support@example.com" className="text-blue-600 hover:underline font-medium">
-                  support@example.com
+                <a href="mailto:support@mebius.com" className="text-blue-600 hover:underline font-medium">
+                  support@Mebius.com
                 </a>
               </p>
             </div>
