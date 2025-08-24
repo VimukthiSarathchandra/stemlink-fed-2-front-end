@@ -5,16 +5,16 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Company Info */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-white">Mebius</h3>
+          <div className="space-y-4 text-center md:text-left">
+            <h3 className="text-lg sm:text-xl font-bold text-white">Mebius</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
               Your premier destination for high-quality fashion and lifestyle products. 
               Discover the latest trends and timeless classics.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex justify-center md:justify-start space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <Facebook size={20} />
               </a>
@@ -28,8 +28,8 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white">Quick Links</h4>
+          <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-base sm:text-lg font-semibold text-white">Quick Links</h4>
             <ul className="space-y-2">
               <li>
                 <a href="/" className="text-gray-300 hover:text-white transition-colors text-sm">
@@ -55,8 +55,8 @@ const Footer = () => {
           </div>
 
           {/* Support */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white">Support</h4>
+          <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-base sm:text-lg font-semibold text-white">Support</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
@@ -82,18 +82,18 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-white">Contact Us</h4>
+          <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-base sm:text-lg font-semibold text-white">Contact Us</h4>
             <div className="space-y-3">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center md:justify-start space-x-2">
                 <Mail size={16} className="text-gray-400" />
                 <span className="text-gray-300 text-sm">support@Mebius.com</span>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center md:justify-start space-x-2">
                 <Phone size={16} className="text-gray-400" />
                 <span className="text-gray-300 text-sm">+1 (555) 123-4567</span>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center md:justify-start space-x-2">
                 <MapPin size={16} className="text-gray-400" />
                 <span className="text-gray-300 text-sm">123 Fashion St, Style City, SC 12345</span>
               </div>
@@ -102,12 +102,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-800 mt-8 pt-8">
+        <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-400 text-sm text-center md:text-left">
               © {currentYear} Mebius. All rights reserved.
             </div>
-            <div className="flex items-center space-x-6 text-sm">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 Privacy Policy
               </a>

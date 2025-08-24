@@ -34,11 +34,11 @@ export default function Navigation() {
   const closeMobileMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="bg-white border-b border-gray-200 px-4 lg:px-16">
+    <header className="bg-white border-b border-gray-200 px-4 lg:px-16 relative z-50">
       <div>
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="font-bold text-2xl">
+          <Link to="/" className="font-bold text-xl sm:text-2xl">
             Mebius
           </Link>
 
@@ -86,8 +86,12 @@ export default function Navigation() {
           )}
 
           {/* Icons */}
-          <div className="flex items-center space-x-4">
-            <ProductSearchForm />
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Search - Hidden on mobile, shown on desktop */}
+            <div className="hidden sm:block">
+              <ProductSearchForm />
+            </div>
+            
             <Link
               to="/shop/cart"
               aria-label="Shopping Bag"
@@ -98,6 +102,7 @@ export default function Navigation() {
                 {cartItemCount}
               </span>
             </Link>
+            
             <SignedIn>
               <div className="flex items-center space-x-2">
                 {/* My Orders Link for Regular Users */}
@@ -144,44 +149,54 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden fixed top-16 left-4 right-4 bg-white z-10">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
-            {[
-              { path: "/shop/shoes", label: "Shoes" },
-              { path: "/shop/t-shirts", label: "T-Shirts" },
-              { path: "/shop/shorts", label: "Shorts" },
-              { path: "/shop/pants", label: "Pants" },
-              { path: "/shop/socks", label: "Socks" },
-            ].map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="block px-3 py-2 text-base font-medium hover:bg-gray-100 rounded-md"
-                onClick={closeMobileMenu}
-              >
-                {item.label}
-              </Link>
-            ))}
+        <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
+          <div className="px-4 py-4 space-y-4">
+            {/* Mobile Search */}
+            <div className="mb-4">
+              <ProductSearchForm />
+            </div>
+            
+            {/* Navigation Links */}
+            <div className="space-y-2">
+              {[
+                { path: "/shop/shoes", label: "Shoes" },
+                { path: "/shop/t-shirts", label: "T-Shirts" },
+                { path: "/shop/shorts", label: "Shorts" },
+                { path: "/shop/pants", label: "Pants" },
+                { path: "/shop/socks", label: "Socks" },
+              ].map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="block px-3 py-3 text-base font-medium hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
             
             {/* User Orders Link for Mobile */}
             {!isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                className="w-full justify-start"
-                onClick={closeMobileMenu}
-              >
-                <Link to="/my-orders" className="flex items-center gap-2">
-                  <Package size={16} />
-                  My Orders
-                </Link>
-              </Button>
+              <div className="pt-2 border-t border-gray-200">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="w-full justify-start"
+                  onClick={closeMobileMenu}
+                >
+                  <Link to="/my-orders" className="flex items-center gap-2">
+                    <Package size={16} />
+                    My Orders
+                  </Link>
+                </Button>
+              </div>
             )}
             
             {/* Admin Links for Mobile */}
             {isAdmin && (
-              <>
+              <div className="pt-2 border-t border-gray-200 space-y-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -230,21 +245,22 @@ export default function Navigation() {
                     Sales Dashboard
                   </Link>
                 </Button>
-              </>
-            )}
-          </div>
-
-          <div className="block md:hidden px-4 pb-4">
-            <SignedOut>
-              <div className="flex flex-col gap-2">
-                <Button variant="ghost" size="sm" asChild className="w-full justify-start">
-                  <Link to="/sign-in">Sign In</Link>
-                </Button>
-                <Button size="sm" asChild className="w-full">
-                  <Link to="/sign-up">Sign Up</Link>
-                </Button>
               </div>
-            </SignedOut>
+            )}
+            
+            {/* Sign In/Sign Up for Mobile */}
+            <div className="pt-2 border-t border-gray-200">
+              <SignedOut>
+                <div className="flex flex-col gap-2">
+                  <Button variant="ghost" size="sm" asChild className="w-full justify-start">
+                    <Link to="/sign-in">Sign In</Link>
+                  </Button>
+                  <Button size="sm" asChild className="w-full">
+                    <Link to="/sign-up">Sign Up</Link>
+                  </Button>
+                </div>
+              </SignedOut>
+            </div>
           </div>
         </div>
       )}

@@ -230,10 +230,10 @@ function ShopPage() {
       {/* Main Content - Filters Left, Products Right */}
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Left Sidebar - Filters */}
-        <div className="lg:w-80 flex-shrink-0">
-          <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 lg:sticky lg:top-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Filters</h2>
+        <div className="lg:w-80 flex-shrink-0 order-2 lg:order-1">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-gray-100 lg:sticky lg:top-8">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Filters</h2>
               {(selectedCategoryId || selectedColorId || sortBy !== 'name' || sortOrder !== 'asc') && (
                 <Button 
                   variant="ghost" 
@@ -247,12 +247,12 @@ function ShopPage() {
             </div>
             
             {/* Category Filter */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-3">
+            <div className="mb-4 sm:mb-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                 Category
               </label>
               <Select value={selectedCategoryId || 'all'} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-4">
+                <SelectTrigger className="w-full h-10 sm:h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-3 sm:px-4">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent className="border-gray-200 max-h-60 w-full min-w-[200px]">
@@ -267,12 +267,12 @@ function ShopPage() {
             </div>
 
             {/* Color Filter */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-3">
+            <div className="mb-4 sm:mb-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                 Color
               </label>
               <Select value={selectedColorId || 'all'} onValueChange={handleColorChange}>
-                <SelectTrigger className="w-full h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-4">
+                <SelectTrigger className="w-full h-10 sm:h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-3 sm:px-4">
                   <SelectValue placeholder="All Colors" />
                 </SelectTrigger>
                 <SelectContent className="border-gray-200 max-h-60 w-full min-w-[200px]">
@@ -293,12 +293,12 @@ function ShopPage() {
             </div>
 
             {/* Sort By */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-3">
+            <div className="mb-4 sm:mb-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                 Sort By
               </label>
               <Select value={sortBy} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-full h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-4">
+                <SelectTrigger className="w-full h-10 sm:h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-3 sm:px-4">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="border-gray-200 max-h-60 w-full min-w-[200px]">
@@ -309,12 +309,12 @@ function ShopPage() {
             </div>
 
             {/* Sort Order */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-3">
+            <div className="mb-4 sm:mb-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                 Order
               </label>
               <Select value={sortOrder} onValueChange={handleSortOrderChange}>
-                <SelectTrigger className="w-full h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-4">
+                <SelectTrigger className="w-full h-10 sm:h-12 border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-sm px-3 sm:px-4">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="border-gray-200 max-h-60 w-full min-w-[200px]">
@@ -326,15 +326,15 @@ function ShopPage() {
 
             {/* Active Filters Display */}
             {(selectedCategoryId || selectedColorId || sortBy !== 'name' || sortOrder !== 'asc') && (
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex flex-wrap gap-2 mb-4">
+              <div className="pt-3 sm:pt-4 border-t border-gray-200">
+                <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
                   {selectedCategoryId && categories && (
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs sm:text-sm font-medium">
                       <span>Category: {categories.find(c => c._id === selectedCategoryId)?.name}</span>
                     </div>
                   )}
                   {selectedColorId && colors && (
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs sm:text-sm font-medium">
                       <div 
                         className="w-3 h-3 rounded-full border border-white" 
                         style={{ backgroundColor: colors.find(c => c._id === selectedColorId)?.hexCode }}
@@ -343,12 +343,12 @@ function ShopPage() {
                     </div>
                   )}
                   {sortBy !== 'name' && (
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-50 text-gray-700 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-gray-50 text-gray-700 rounded-full text-xs sm:text-sm font-medium">
                       <span>Sort: {sortBy}</span>
                     </div>
                   )}
                   {sortOrder !== 'asc' && (
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-50 text-gray-700 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-gray-50 text-gray-700 rounded-full text-xs sm:text-sm font-medium">
                       <span>Order: {sortOrder}</span>
                     </div>
                   )}
@@ -359,16 +359,16 @@ function ShopPage() {
         </div>
 
         {/* Right Side - Products */}
-        <div className="flex-1">
+        <div className="flex-1 order-1 lg:order-2">
           {/* Products Grid */}
           {hasNoProductsInDatabase ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="max-w-md mx-auto">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Package className="h-12 w-12 text-gray-400" />
+                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <Package className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">No products available yet</h3>
-                <p className="text-gray-600 mb-6 text-base leading-relaxed">
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 sm:mb-3">No products available yet</h3>
+                <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                   Products will appear here once they are added to our collection.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -382,13 +382,13 @@ function ShopPage() {
               </div>
             </div>
           ) : hasNoProductsWithFilters ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="max-w-md mx-auto">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Package className="h-10 w-10 text-gray-400" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <Package className="h-8 w-8 sm:h-10 sm:w-10 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">No products found</h3>
-                <p className="text-gray-600 mb-6 text-base leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">No products found</h3>
+                <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                   No products match your current filters. Try adjusting your selection.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -415,13 +415,13 @@ function ShopPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="max-w-md mx-auto">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Package className="h-10 w-10 text-gray-400" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <Package className="h-8 w-8 sm:h-10 sm:w-10 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">No products available yet</h3>
-                <p className="text-gray-600 mb-6 text-base leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">No products available yet</h3>
+                <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                   Products will appear here once they are added to our collection.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">

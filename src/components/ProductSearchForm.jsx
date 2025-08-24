@@ -14,17 +14,17 @@ function ProductSearchForm() {
 
 
   return (
-    <div className="relative">
+    <div className="relative w-full sm:w-64">
       <Input
         type="text"
         placeholder="Search products..."
-        className="w-64"
+        className="w-full sm:w-64"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
       <div
         className={cn(
-          "hidden absolute top-10 rounded-md left-0 z-10 right-0 w-64 px-2 bg-white border shadow-lg",
+          "hidden absolute top-10 rounded-md left-0 z-10 right-0 w-full sm:w-64 px-2 bg-white border shadow-lg",
           {
             "block": search.length >= 2,
           }

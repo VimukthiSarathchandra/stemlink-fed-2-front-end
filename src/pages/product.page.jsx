@@ -98,18 +98,18 @@ function ProductPage() {
     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
-          <Link to="/shop" className="hover:text-gray-900">Shop</Link>
+        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4 sm:mb-6 overflow-x-auto">
+          <Link to="/shop" className="hover:text-gray-900 whitespace-nowrap">Shop</Link>
           <span>/</span>
-          <Link to={`/shop/${product.categoryId?.name?.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-gray-900">
+          <Link to={`/shop/${product.categoryId?.name?.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-gray-900 whitespace-nowrap">
             {product.categoryId?.name || 'Category'}
           </Link>
           <span>/</span>
-          <span className="text-gray-900">{product.name}</span>
+          <span className="text-gray-900 whitespace-nowrap">{product.name}</span>
         </nav>
 
         {/* Back Button */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <Button variant="outline" asChild className="text-sm">
             <Link to="/shop">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -118,7 +118,7 @@ function ProductPage() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
           {/* Product Images */}
           <div className="space-y-4">
             <div className="aspect-square bg-white rounded-lg shadow-sm border overflow-hidden">
@@ -130,8 +130,8 @@ function ProductPage() {
               {isOutOfStock && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <div className="text-white text-center">
-                    <PackageX className="h-12 w-12 mx-auto mb-2" />
-                    <p className="text-lg font-semibold">Out of Stock</p>
+                    <PackageX className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-2" />
+                    <p className="text-base sm:text-lg font-semibold">Out of Stock</p>
                   </div>
                 </div>
               )}
@@ -148,10 +148,10 @@ function ProductPage() {
           </div>
 
           {/* Product Details */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Product Title and Rating */}
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 leading-tight">
                 {product.name}
               </h1>
               
@@ -176,13 +176,13 @@ function ProductPage() {
             </div>
 
             {/* Price */}
-            <div className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
               ${product.price}
             </div>
 
             {/* Stock Status */}
             <div className="flex items-center space-x-2">
-              <Package className="h-5 w-5 text-gray-500" />
+              <Package className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
               <span className={`text-sm font-medium ${
                 isOutOfStock ? 'text-red-600' : 'text-green-600'
               }`}>
@@ -194,11 +194,11 @@ function ProductPage() {
             {product.colorIds && product.colorIds.length > 0 && (
               <div>
                 <h3 className="text-sm font-medium text-gray-900 mb-3">Select Color:</h3>
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   {product.colorIds.map((color) => (
                     <div
                       key={color._id}
-                      className={`w-10 h-10 rounded-full border-2 cursor-pointer transition-all ${
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 cursor-pointer transition-all ${
                         selectedColor?._id === color._id 
                           ? 'border-blue-600 scale-110' 
                           : 'border-gray-300 hover:border-gray-400'
@@ -231,7 +231,7 @@ function ProductPage() {
                   >
                     <span className="text-lg">-</span>
                   </Button>
-                  <span className="px-4 py-2 text-sm font-medium min-w-[3rem] text-center">
+                  <span className="px-3 sm:px-4 py-2 text-sm font-medium min-w-[2.5rem] sm:min-w-[3rem] text-center">
                     {selectedQuantity}
                   </span>
                   <Button
@@ -255,28 +255,28 @@ function ProductPage() {
               <Button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || isLoading}
-                className="w-full h-12 text-lg font-semibold"
+                className="w-full h-12 text-base sm:text-lg font-semibold"
                 size="lg"
               >
                 {isLoading ? (
                   <>
-                    <RotateCcw className="h-5 w-5 mr-2 animate-spin" />
+                    <RotateCcw className="h-4 w-4 sm:h-5 sm:w-5 mr-2 animate-spin" />
                     Adding to Cart...
                   </>
                 ) : isOutOfStock ? (
                   <>
-                    <PackageX className="h-5 w-5 mr-2" />
+                    <PackageX className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                     Out of Stock
                   </>
                 ) : (
                   <>
-                    <ShoppingCart className="h-5 w-5 mr-2" />
+                    <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                     Add to Cart - ${(product.price * selectedQuantity).toFixed(2)}
                   </>
                 )}
               </Button>
               
-              <div className="flex space-x-2">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
                 <Button variant="outline" className="flex-1">
                   <Heart className="h-4 w-4 mr-2" />
                   Wishlist
@@ -289,29 +289,29 @@ function ProductPage() {
             </div>
 
             {/* Product Description */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Description</h3>
-              <p className="text-gray-700 leading-relaxed">
+            <Card className="p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Product Description</h3>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 {product.description}
               </p>
             </Card>
 
             {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-white rounded-lg border">
-                <Truck className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                <h4 className="font-medium text-gray-900">Free Shipping</h4>
-                <p className="text-sm text-gray-600">On orders over $50</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              <div className="text-center p-3 sm:p-4 bg-white rounded-lg border">
+                <Truck className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-blue-600" />
+                <h4 className="font-medium text-gray-900 text-sm sm:text-base">Free Shipping</h4>
+                <p className="text-xs sm:text-sm text-gray-600">On orders over $50</p>
               </div>
-              <div className="text-center p-4 bg-white rounded-lg border">
-                <Shield className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                <h4 className="font-medium text-gray-900">Quality Guarantee</h4>
-                <p className="text-sm text-gray-600">30-day return policy</p>
+              <div className="text-center p-3 sm:p-4 bg-white rounded-lg border">
+                <Shield className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-green-600" />
+                <h4 className="font-medium text-gray-900 text-sm sm:text-base">Quality Guarantee</h4>
+                <p className="text-xs sm:text-sm text-gray-600">30-day return policy</p>
               </div>
-              <div className="text-center p-4 bg-white rounded-lg border">
-                <RotateCcw className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-                <h4 className="font-medium text-gray-900">Easy Returns</h4>
-                <p className="text-sm text-gray-600">Hassle-free returns</p>
+              <div className="text-center p-3 sm:p-4 bg-white rounded-lg border">
+                <RotateCcw className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-purple-600" />
+                <h4 className="font-medium text-gray-900 text-sm sm:text-base">Easy Returns</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Hassle-free returns</p>
               </div>
             </div>
           </div>
@@ -319,12 +319,12 @@ function ProductPage() {
 
         {/* Reviews Section */}
         {product.reviews && product.reviews.length > 0 && (
-          <div className="mt-12">
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Customer Reviews</h3>
-              <div className="space-y-6">
+          <div className="mt-8 sm:mt-12">
+            <Card className="p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Customer Reviews</h3>
+              <div className="space-y-4 sm:space-y-6">
                 {product.reviews.map((review) => (
-                  <div key={review._id} className="border-b border-gray-200 pb-6 last:border-b-0">
+                  <div key={review._id} className="border-b border-gray-200 pb-4 sm:pb-6 last:border-b-0">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <div className="flex">
@@ -342,7 +342,7 @@ function ProductPage() {
                         </span>
                       </div>
                     </div>
-                    <p className="text-gray-700">{review.comment}</p>
+                    <p className="text-sm sm:text-base text-gray-700">{review.comment}</p>
                   </div>
                 ))}
               </div>
