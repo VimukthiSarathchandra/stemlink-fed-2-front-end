@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useGetProductByIdQuery } from "@/lib/api";
+import { toast } from "react-hot-toast";
 
 function ProductPage() {
   const { productId } = useParams();
@@ -25,6 +26,7 @@ function ProductPage() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedColors, setSelectedColors] = useState([]);
 
   const { data: product, isLoading: isProductLoading, error } = useGetProductByIdQuery(productId);
 
@@ -37,23 +39,49 @@ function ProductPage() {
     if (isOutOfStock || !product) return;
     
     // Check if color selection is required
-    if (product.colorIds && product.colorIds.length > 0 && !selectedColor) {
+    if (product.colorIds && product.colorIds.length > 0 && !selectedColor && selectedColors.length === 0) {
       alert('Please select a color before adding to cart');
       return;
     }
     
     setIsLoading(true);
-    dispatch(addToCart({
-      _id: product._id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      stock: product.stock,
-      selectedColor: selectedColor,
-    }));
     
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    // If we have multiple colors selected, add each one
+    if (selectedColors.length > 0) {
+      selectedColors.forEach(color => {
+        dispatch(addToCart({
+          _id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          stock: product.stock,
+          selectedColor: color,
+          quantity: selectedQuantity,
+        }));
+      });
+      
+      setTimeout(() => {
+        setIsLoading(false);
+        toast.success(`${selectedColors.length * selectedQuantity} items added to cart!`);
+        setSelectedColors([]); // Clear selected colors
+      }, 500);
+    } else {
+      // Single color selection
+      dispatch(addToCart({
+        _id: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        stock: product.stock,
+        selectedColor: selectedColor,
+        quantity: selectedQuantity,
+      }));
+      
+      setTimeout(() => {
+        setIsLoading(false);
+        toast.success(`${selectedQuantity} ${selectedQuantity === 1 ? 'item' : 'items'} added to cart!`);
+      }, 500);
+    }
   };
 
   const handleQuantityChange = (newQuantity) => {
@@ -64,6 +92,27 @@ function ProductPage() {
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
+  };
+
+  const handleAddMultipleColors = () => {
+    if (!selectedColor) {
+      alert('Please select a color first');
+      return;
+    }
+    
+    // Check if color is already selected
+    const isAlreadySelected = selectedColors.some(c => c._id === selectedColor._id);
+    if (isAlreadySelected) {
+      alert('This color is already selected');
+      return;
+    }
+    
+    setSelectedColors([...selectedColors, selectedColor]);
+    setSelectedColor(null); // Reset selection
+  };
+
+  const handleRemoveColor = (colorId) => {
+    setSelectedColors(selectedColors.filter(c => c._id !== colorId));
   };
 
   if (isProductLoading) {
@@ -210,9 +259,47 @@ function ProductPage() {
                   ))}
                 </div>
                 {selectedColor && (
-                  <p className="text-sm text-gray-600 mt-2">
-                    Selected: <span className="font-medium">{selectedColor.name}</span>
-                  </p>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-600">
+                      Selected: <span className="font-medium">{selectedColor.name}</span>
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleAddMultipleColors}
+                      className="mt-2 text-xs"
+                    >
+                      Add This Color
+                    </Button>
+                  </div>
+                )}
+                
+                {/* Multiple Colors Selection */}
+                {selectedColors.length > 0 && (
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <h4 className="text-sm font-medium text-gray-900 mb-2">Selected Colors:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedColors.map((color) => (
+                        <div key={color._id} className="flex items-center gap-1">
+                          <div
+                            className="w-6 h-6 rounded-full border-2 border-gray-300"
+                            style={{ backgroundColor: color.hexCode }}
+                            title={color.name}
+                          />
+                          <span className="text-xs text-gray-700">{color.name}</span>
+                          <button
+                            onClick={() => handleRemoveColor(color._id)}
+                            className="text-red-500 hover:text-red-700 text-xs"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-600 mt-2">
+                      {selectedColors.length} color{selectedColors.length > 1 ? 's' : ''} selected
+                    </p>
+                  </div>
                 )}
               </div>
             )}
@@ -271,7 +358,10 @@ function ProductPage() {
                 ) : (
                   <>
                     <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                    Add to Cart - ${(product.price * selectedQuantity).toFixed(2)}
+                    {selectedColors.length > 0 
+                      ? `Add ${selectedColors.length} Color${selectedColors.length > 1 ? 's' : ''} to Cart - $${(product.price * selectedQuantity * selectedColors.length).toFixed(2)}`
+                      : `Add to Cart - $${(product.price * selectedQuantity).toFixed(2)}`
+                    }
                   </>
                 )}
               </Button>

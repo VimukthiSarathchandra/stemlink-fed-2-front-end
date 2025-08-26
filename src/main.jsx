@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { store } from "./lib/store";
 import { Provider } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 import "./index.css";
 
@@ -38,6 +39,7 @@ createRoot(document.getElementById("root")).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <Provider store={store}>
         <BrowserRouter>
+          <Toaster position="top-right" />
           <Routes>
             <Route element={<RootLayout />}>
               <Route path="/" element={<HomePage />} />

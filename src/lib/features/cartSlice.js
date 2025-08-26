@@ -21,9 +21,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const newItem = action.payload;
-      const foundItem = state.cartItems.find(
-        (item) => item.product._id === newItem._id && item.selectedColor?._id === newItem.selectedColor?._id
-      );
+      const quantity = newItem.quantity || 1;
       
       // Check if item is in stock
       if (newItem.stock <= 0) {
@@ -31,20 +29,30 @@ export const cartSlice = createSlice({
         return;
       }
       
+      // Check if adding the quantity would exceed stock
+      if (quantity > newItem.stock) {
+        console.warn('Cannot add items: Quantity exceeds available stock');
+        return;
+      }
+      
+      const foundItem = state.cartItems.find(
+        (item) => item.product._id === newItem._id && item.selectedColor?._id === newItem.selectedColor?._id
+      );
+      
       if (!foundItem) {
-        // Add new item to cart with color selection
+        // Add new item to cart with color selection and quantity
         state.cartItems.push({ 
           product: newItem, 
-          quantity: 1,
+          quantity: quantity,
           selectedColor: newItem.selectedColor || null
         });
       } else {
-        // Check if adding one more would exceed stock
-        if (foundItem.quantity >= newItem.stock) {
-          console.warn('Cannot add more items: Stock limit reached');
+        // Check if adding the quantity would exceed stock
+        if (foundItem.quantity + quantity > newItem.stock) {
+          console.warn('Cannot add more items: Would exceed available stock');
           return;
         }
-        foundItem.quantity += 1;
+        foundItem.quantity += quantity;
       }
       // Save to localStorage
       localStorage.setItem('cart', JSON.stringify(state.cartItems));

@@ -51,6 +51,11 @@ function CartItem({ item }) {
           </h3>
           <p className="text-sm text-gray-600 mb-2">
             ${item.product.price}
+            {item.selectedColor && (
+              <span className="ml-2 text-xs bg-gray-100 px-2 py-1 rounded">
+                Color: {item.selectedColor.name}
+              </span>
+            )}
           </p>
 
           {/* Stock Information */}
@@ -102,6 +107,9 @@ function CartItem({ item }) {
                   </span>
                 )}
               </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Note: Different colors create separate cart items
+              </p>
             </div>
           )}
 

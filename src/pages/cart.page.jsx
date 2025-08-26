@@ -10,6 +10,7 @@ function CartPage() {
   const dispatch = useDispatch();
 
   // Calculate cart totals
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce((total, item) => {
     return total + (item.product.price * item.quantity);
   }, 0);
@@ -61,7 +62,7 @@ function CartPage() {
           <div className="flex-1">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg sm:text-xl font-semibold">
-                Cart Items ({cart.length})
+                Cart Items ({totalItems} items)
               </h2>
               <Button
                 variant="outline"
@@ -88,7 +89,7 @@ function CartPage() {
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Subtotal ({cart.length} items)</span>
+                  <span className="text-gray-600">Subtotal ({totalItems} items)</span>
                   <span className="font-medium">${subtotal.toFixed(2)}</span>
                 </div>
                 
