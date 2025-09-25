@@ -38,7 +38,7 @@ function ShopPage() {
 
   // Debug logging
   useEffect(() => {
-    console.log('📊 API Debug:', {
+    console.log(' API Debug:', {
       selectedCategoryId,
       productsData: productsData ? {
         productsCount: productsData.products?.length || 0,
@@ -89,17 +89,17 @@ function ShopPage() {
         return false;
       });
       
-      console.log('🎯 Found category object:', categoryObj);
+      console.log(' Found category object:', categoryObj);
       
       if (categoryObj && categoryObj._id !== selectedCategoryId) {
-        console.log('✅ Setting category ID:', categoryObj._id);
+        console.log(' Setting category ID:', categoryObj._id);
         setSelectedCategoryId(categoryObj._id);
         // Update URL params
         const params = new URLSearchParams(searchParams);
         params.set('categoryId', categoryObj._id);
         setSearchParams(params);
       } else if (!categoryObj) {
-        console.log('❌ No category found for:', category);
+        console.log(' No category found for:', category);
       }
     }
   }, [category, categories, selectedCategoryId, searchParams, setSearchParams]);

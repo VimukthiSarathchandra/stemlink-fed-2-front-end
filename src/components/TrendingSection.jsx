@@ -19,8 +19,7 @@ function TrendingSection() {
   const [selectedCategoryId, setSelectedCategoryId] = useState("ALL");
   
   // Fix the filtering logic to use categoryId._id for populated category
-  const filteredProducts =
-    selectedCategoryId === "ALL"
+  const filteredProducts = selectedCategoryId === "ALL"
       ? products
       : products?.filter((product) => 
           product.categoryId?._id === selectedCategoryId || 

@@ -53,6 +53,7 @@ function CreateProductForm() {
       price: "",
     },
   });
+  
 
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const { data: categories } = useGetAllCategoriesQuery();

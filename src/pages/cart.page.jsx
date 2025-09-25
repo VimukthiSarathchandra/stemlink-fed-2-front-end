@@ -100,11 +100,7 @@ function CartPage() {
                   </span>
                 </div>
                 
-                {shipping > 0 && (
-                  <div className="text-xs text-gray-500 bg-blue-50 p-2 rounded">
-                    Free shipping on orders over $50
-                  </div>
-                )}
+                
                 
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-base sm:text-lg font-semibold">

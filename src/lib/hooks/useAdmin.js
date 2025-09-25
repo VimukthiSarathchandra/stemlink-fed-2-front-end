@@ -4,12 +4,10 @@ export const useAdmin = () => {
   const { user } = useUser();
 
   // Check if user is admin based on multiple criteria
-  const isAdmin = user?.publicMetadata?.role === 'admin' 
-                 ;
-
+  const isAdmin = user?.publicMetadata?.role === "admin";
   return {
     isAdmin,
     user,
-    isLoading: !user
+    isLoading: !user,
   };
 };
