@@ -11,6 +11,7 @@ function ShopPage() {
   
   // Get filter and sort parameters from URL
   const currentCategoryId = searchParams.get('categoryId') || '';
+  const currentCategorySlug = searchParams.get('categorySlug') || '';
   const currentColorId = searchParams.get('colorId') || '';
   const currentSortBy = searchParams.get('sortBy') || 'name';
   const currentSortOrder = searchParams.get('sortOrder') || 'asc';
@@ -18,6 +19,7 @@ function ShopPage() {
 
   // State for filters
   const [selectedCategoryId, setSelectedCategoryId] = useState(currentCategoryId);
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState(currentCategorySlug);
   const [selectedColorId, setSelectedColorId] = useState(currentColorId);
   const [sortBy, setSortBy] = useState(currentSortBy);
   const [sortOrder, setSortOrder] = useState(currentSortOrder);
@@ -25,6 +27,7 @@ function ShopPage() {
   // Fetch data
   const { data: productsData, isLoading, isError, error } = useGetAllProductsQuery({
     categoryId: selectedCategoryId || undefined,
+    categorySlug: selectedCategorySlug || undefined,
     colorId: selectedColorId || undefined,
     sortBy,
     sortOrder,
@@ -40,6 +43,7 @@ function ShopPage() {
   useEffect(() => {
     console.log(' API Debug:', {
       selectedCategoryId,
+      selectedCategorySlug,
       productsData: productsData ? {
         productsCount: productsData.products?.length || 0,
         pagination: productsData.pagination,
@@ -54,6 +58,7 @@ function ShopPage() {
       } : null,
       queryParams: {
         categoryId: selectedCategoryId || undefined,
+        categorySlug: selectedCategorySlug || undefined,
         colorId: selectedColorId || undefined,
         sortBy,
         sortOrder,
@@ -61,7 +66,7 @@ function ShopPage() {
         limit: 20
       }
     });
-  }, [selectedCategoryId, productsData, isLoading, isError, error, selectedColorId, sortBy, sortOrder, currentPage]);
+  }, [selectedCategoryId, selectedCategorySlug, productsData, isLoading, isError, error, selectedColorId, sortBy, sortOrder, currentPage]);
 
   const { data: categories } = useGetAllCategoriesQuery();
   const { data: colors } = useGetAllColorsQuery();
@@ -77,43 +82,40 @@ function ShopPage() {
         selectedCategoryId
       });
       
-      const categoryObj = categories.find(cat => {
-        const categoryNameSlug = cat.name.toLowerCase().replace(/\s+/g, '-');
-        const urlCategory = category.toLowerCase();
-        
-        // Handle different variations
-        if (categoryNameSlug === urlCategory) return true;
-        if (cat.name.toLowerCase() === urlCategory) return true;
-        if (categoryNameSlug === urlCategory.replace('-', '')) return true; // Handle t-shirts vs tshirts
-        
-        return false;
-      });
+      const urlCategory = category.toLowerCase();
+      const categoryObj = categories.find(cat => cat.slug?.toLowerCase() === urlCategory);
       
       console.log(' Found category object:', categoryObj);
       
-      if (categoryObj && categoryObj._id !== selectedCategoryId) {
-        console.log(' Setting category ID:', categoryObj._id);
-        setSelectedCategoryId(categoryObj._id);
-        // Update URL params
+      if (categoryObj) {
+        if (categoryObj._id !== selectedCategoryId) {
+          setSelectedCategoryId(categoryObj._id);
+        }
+        if (categoryObj.slug !== selectedCategorySlug) {
+          setSelectedCategorySlug(categoryObj.slug);
+        }
         const params = new URLSearchParams(searchParams);
         params.set('categoryId', categoryObj._id);
+        params.set('categorySlug', categoryObj.slug);
         setSearchParams(params);
       } else if (!categoryObj) {
         console.log(' No category found for:', category);
       }
     }
-  }, [category, categories, selectedCategoryId, searchParams, setSearchParams]);
+  }, [category, categories, selectedCategoryId, selectedCategorySlug, searchParams, setSearchParams]);
 
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     if (selectedCategoryId) params.set('categoryId', selectedCategoryId);
+    if (selectedCategorySlug) params.set('categorySlug', selectedCategorySlug);
     if (selectedColorId) params.set('colorId', selectedColorId);
     if (sortBy !== 'name') params.set('sortBy', sortBy);
     if (sortOrder !== 'asc') params.set('sortOrder', sortOrder);
     
     // Reset to page 1 when filters change, but keep current page if only page changes
     const shouldResetPage = selectedCategoryId !== currentCategoryId || 
+                           selectedCategorySlug !== currentCategorySlug || 
                            selectedColorId !== currentColorId || 
                            sortBy !== currentSortBy || 
                            sortOrder !== currentSortOrder;
@@ -125,13 +127,19 @@ function ShopPage() {
     }
     
     setSearchParams(params);
-  }, [selectedCategoryId, selectedColorId, sortBy, sortOrder, currentPage, setSearchParams, 
-      currentCategoryId, currentColorId, currentSortBy, currentSortOrder]);
+  }, [selectedCategoryId, selectedCategorySlug, selectedColorId, sortBy, sortOrder, currentPage, setSearchParams, 
+      currentCategoryId, currentCategorySlug, currentColorId, currentSortBy, currentSortOrder]);
 
   // Handle filter changes
   const handleCategoryChange = (categoryId) => {
     const newCategoryId = categoryId === 'all' ? '' : categoryId;
     setSelectedCategoryId(newCategoryId);
+    if (newCategoryId === '') {
+      setSelectedCategorySlug('');
+    } else if (categories) {
+      const found = categories.find(c => c._id === newCategoryId);
+      setSelectedCategorySlug(found?.slug || '');
+    }
     // Don't call setSearchParams here - let the useEffect handle it
   };
 
@@ -153,6 +161,7 @@ function ShopPage() {
 
   const clearFilters = () => {
     setSelectedCategoryId('');
+    setSelectedCategorySlug('');
     setSelectedColorId('');
     setSortBy('name');
     setSortOrder('asc');

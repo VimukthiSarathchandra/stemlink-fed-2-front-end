@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/lib/features/cartSlice";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { getImageUrl } from "@/lib/product";
 import { Package, PackageX, ShoppingCart } from "lucide-react";
 import { Link } from "react-router";
@@ -12,6 +13,8 @@ function SimpleProductCard(props) {
   const [showColorSelector, setShowColorSelector] = useState(false);
   const isOutOfStock = props.product.stock <= 0;
 
+  const [isAdding, setIsAdding] = useState(false);
+
   const handleAddToCart = () => {
     if (isOutOfStock) return;
     
@@ -21,6 +24,7 @@ function SimpleProductCard(props) {
       return;
     }
     
+    setIsAdding(true);
     dispatch(addToCart({
       _id: props.product._id,
       name: props.product.name,
@@ -29,10 +33,13 @@ function SimpleProductCard(props) {
       stock: props.product.stock,
       selectedColor: selectedColor,
     }));
-    
-    // Reset color selection after adding to cart
-    setSelectedColor(null);
-    setShowColorSelector(false);
+    setTimeout(() => {
+      setIsAdding(false);
+      toast.success('Added to cart');
+      // Reset color selection after adding to cart
+      setSelectedColor(null);
+      setShowColorSelector(false);
+    }, 400);
   };
 
   const handleCartIconClick = () => {
@@ -189,9 +196,10 @@ function SimpleProductCard(props) {
                 </Button>
                 <Button
                   className="flex-1 text-sm"
-                  disabled={!selectedColor}
+                  disabled={!selectedColor || isAdding}
                   onClick={() => {
                     if (selectedColor) {
+                      setIsAdding(true);
                       dispatch(addToCart({
                         _id: props.product._id,
                         name: props.product.name,
@@ -200,12 +208,16 @@ function SimpleProductCard(props) {
                         stock: props.product.stock,
                         selectedColor: selectedColor,
                       }));
-                      setShowColorSelector(false);
-                      setSelectedColor(null);
+                      setTimeout(() => {
+                        setIsAdding(false);
+                        toast.success('Added to cart');
+                        setShowColorSelector(false);
+                        setSelectedColor(null);
+                      }, 400);
                     }
                   }}
                 >
-                  Add to Cart
+                  {isAdding ? 'Adding...' : 'Add to Cart'}
                 </Button>
               </div>
             </div>

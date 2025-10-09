@@ -28,6 +28,7 @@ export const api = createApi({
       query: (params) => {
         const searchParams = new URLSearchParams();
         if (params?.categoryId) searchParams.append("categoryId", params.categoryId);
+        if (params?.categorySlug) searchParams.append("categorySlug", params.categorySlug);
         if (params?.colorId) searchParams.append("colorId", params.colorId);
         if (params?.sortBy) searchParams.append("sortBy", params.sortBy);
         if (params?.sortOrder) searchParams.append("sortOrder", params.sortOrder);
@@ -39,10 +40,9 @@ export const api = createApi({
         };
       },
       transformResponse: (response) => {
-        return {
-          products: response.products || response,
-          pagination: response.pagination,
-        };
+        const products = response?.products || response?.data || response;
+        const pagination = response?.pagination;
+        return { products, pagination };
       },
       providesTags: ['Product'],
     }),
@@ -52,6 +52,7 @@ export const api = createApi({
     }),
     getAllCategories: builder.query({
       query: () => "/api/categories",
+      transformResponse: (response) => response?.data || response,
       providesTags: ['Category'],
     }),
     getAllColors: builder.query({

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Menu, X, ShoppingBag, Search, User, Package, Plus, Edit, BarChart3 } from "lucide-react";
 import { useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ export default function Navigation() {
   const { isAdmin } = useAdmin();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
   // const cartItems = useSelector((state) => state.cart.value);
 
   // Calculate total quantity of items in cart
@@ -45,32 +46,18 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {[
-              {
-                path: "/shop/shoes",
-                label: "Shoes",
-              },
-              {
-                path: "/shop/t-shirts",
-                label: "T-Shirts",
-              },
-              {
-                path: "/shop/shorts",
-                label: "Shorts",
-              },
-              {
-                path: "/shop/pants",
-                label: "Pants",
-              },
-              {
-                path: "/shop/socks",
-                label: "Socks",
-              },
+              { path: "/shop/shoes", label: "Shoes" },
+              { path: "/shop/t-shirts", label: "T-Shirts" },
+              { path: "/shop/shorts", label: "Shorts" },
+              { path: "/shop/pants", label: "Pants" },
+              { path: "/shop/socks", label: "Socks" },
             ].map((item) => {
+              const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="font-medium hover:text-gray-600"
+                  className={`font-medium hover:text-gray-600 ${isActive ? 'text-black border-b-2 border-black pb-1' : ''}`}
                 >
                   {item.label}
                 </Link>
@@ -164,16 +151,19 @@ export default function Navigation() {
                 { path: "/shop/shorts", label: "Shorts" },
                 { path: "/shop/pants", label: "Pants" },
                 { path: "/shop/socks", label: "Socks" },
-              ].map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="block px-3 py-3 text-base font-medium hover:bg-gray-100 rounded-md transition-colors"
-                  onClick={closeMobileMenu}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              ].map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`block px-3 py-3 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
+                    onClick={closeMobileMenu}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
             
             {/* User Orders Link for Mobile */}

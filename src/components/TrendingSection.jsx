@@ -8,12 +8,8 @@ function TrendingSection() {
   const { data: productsData, isLoading } = useGetAllProductsQuery();
   const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useGetAllCategoriesQuery();
 
-  // Debug: Log categories data
-  useEffect(() => {
-    
-  }, [categories, isCategoriesLoading, categoriesError]);
 
-  // Extract products from the new API response structure
+
   const products = productsData?.products || [];
 
   const [selectedCategoryId, setSelectedCategoryId] = useState("ALL");
