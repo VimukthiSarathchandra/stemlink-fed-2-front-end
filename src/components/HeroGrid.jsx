@@ -1,65 +1,74 @@
-import { motion } from "framer-motion";
+"use client";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
+
+const images = [
+  "/assets/images/729091cd0452fb9d0b89106ceec16368.png",
+  "/assets/images/29a85f64d93c41afa6b64d31b3a88038.png",
+  "/assets/images/0233936f837e7b69d6a545511b1ba132.png",
+];
 
 function HeroGrid() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 lg:px-16 min-h-[50vh] sm:min-h-[60vh] md:min-h-[80vh] gap-4 mt-4">
+    <section className="relative flex flex-col items-center justify-center min-h-[70vh] overflow-hidden rounded-3xl mx-4 lg:mx-16 mt-6 shadow-sm bg-gradient-to-br from-zinc-50 via-white to-stone-50">
+      <div className="absolute inset-0">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={index}
+            src={images[index]}
+            alt="Hero carousel"
+            className="absolute inset-0 w-full h-full object-cover rounded-3xl"
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
+          />
+        </AnimatePresence>
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-tr from-black/65 via-black/35 to-black/10 rounded-3xl" />
+
       <motion.div
-        className="relative col-span-1 lg:col-span-2 rounded-2xl min-h-[300px] sm:min-h-[400px]"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 36 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="relative text-center text-white px-4 z-10"
       >
-        <img
-          src={"/assets/images/729091cd0452fb9d0b89106ceec16368.png"}
-          className="rounded-2xl w-full h-full object-cover"
-          alt="hero"
-        />
-        <div className="absolute top-4 sm:top-8 left-4 sm:left-8 right-4 sm:right-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white font-bold leading-tight">
-            Color of <br /> Summer
-            <br /> Outfit
-          </h1>
-          <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-2 sm:mt-4 leading-relaxed">
-            100+ Collections for your <br className="hidden sm:block" /> outfit inspirations <br className="hidden sm:block" />
-            in this summer
-          </p>
-        </div>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+          Discover Your Style
+        </h1>
+        <p className="text-base sm:text-lg lg:text-xl text-gray-100 mb-6">
+          Find the perfect outfit for every moment this season
+        </p>
+        <Button
+          size="lg"
+          asChild
+          className="bg-white text-black font-semibold hover:bg-black hover:text-white transition-all duration-300"
+        >
+          <Link to="/shop">Shop Now</Link>
+        </Button>
       </motion.div>
-      <div className="col-span-1 grid grid-rows-2 gap-4">
-        <motion.div
-          className="rounded-2xl relative min-h-[150px] sm:min-h-[200px] md:h-auto"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <img
-            src="/assets/images/29a85f64d93c41afa6b64d31b3a88038.png"
-            alt="Featured product"
-            className="rounded-2xl w-full h-full object-cover"
+
+      <div className="absolute bottom-4 flex space-x-2 z-10">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === index ? "bg-white" : "bg-white/50 hover:bg-white/80"}`}
           />
-          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4">
-            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-black font-bold leading-tight">
-              Outdoor <br /> Active
-            </h1>
-          </div>
-        </motion.div>
-        <motion.div
-          className="rounded-2xl relative min-h-[150px] sm:min-h-[200px] md:h-auto"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <img
-            src="/assets/images/0233936f837e7b69d6a545511b1ba132.png"
-            alt="Featured product"
-            className="rounded-2xl w-full h-full object-cover"
-          />
-          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4">
-            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-black font-bold leading-tight">
-              Casual <br /> Comfort
-            </h1>
-          </div>
-        </motion.div>
+        ))}
       </div>
     </section>
   );

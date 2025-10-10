@@ -1,6 +1,7 @@
 import { useGetAllProductsQuery, useGetAllCategoriesQuery, useGetAllColorsQuery } from "@/lib/api";
 import { useParams, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
+import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SimpleProductCard from "@/components/SimpleProductCard";
