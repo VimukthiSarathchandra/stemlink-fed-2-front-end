@@ -119,12 +119,12 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="text-center mt-4">
+          {/* <div className="text-center mt-4">
             <p className="text-gray-500 text-xs flex items-center justify-center space-x-1">
               <span>Made by</span>
               <span> <a href="https://vimukthi.dev/" className="text-white hover:text-gray-300 transition-colors">Vimukthi Sarathchandra</a></span>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
