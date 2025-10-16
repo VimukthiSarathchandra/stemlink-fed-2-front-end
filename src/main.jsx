@@ -24,7 +24,7 @@ import CompletePage from "./pages/complete.page";
 import MyOrdersPage from "./pages/my-orders.page";
 import AdminOrdersPage from "./pages/admin-orders.page";
 import SalesDashboardPage from "./pages/sales-dashboard.page";
-
+import { Analytics } from "@vercel/analytics/next"
 import { ClerkProvider } from "@clerk/clerk-react";
 
 // Import your Publishable Key
@@ -40,6 +40,7 @@ createRoot(document.getElementById("root")).render(
       <Provider store={store}>
         <BrowserRouter>
           <Toaster position="top-right" />
+          <Analytics />
           <Routes>
             <Route element={<RootLayout />}>
               <Route path="/" element={<HomePage />} />
